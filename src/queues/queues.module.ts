@@ -7,21 +7,38 @@ import { WebhookProcessor } from './webhook.processor';
 import { PaymentProducerService } from './payment.producer.service';
 import { MercadoPagoModule } from '../mercadopago/mercadopago.module';
 
+function parseRedisUrl(url: string) {
+  const parsed = new URL(url);
+  return {
+    host: parsed.hostname,
+    port: parsed.port ? Number(parsed.port) : 6379,
+    password: parsed.password || undefined,
+    tls: parsed.protocol === 'rediss:' ? {} : undefined,
+  };
+}
+
 @Module({
   imports: [
     BullModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
-        connection: {
-          host: config.get('REDIS_HOST', 'localhost'),
-          port: config.get<number>('REDIS_PORT', 6379),
-          password: config.get('REDIS_PASSWORD'),
-        },
-        defaultJobOptions: {
-          removeOnComplete: { count: 100 },
-          removeOnFail: { count: 500 },
-        },
-      }),
+      useFactory: (config: ConfigService) => {
+        const redisUrl = config.get<string>('REDIS_URL');
+        const connection = redisUrl
+          ? parseRedisUrl(redisUrl)
+          : {
+              host: config.get('REDIS_HOST', 'localhost'),
+              port: config.get<number>('REDIS_PORT', 6379),
+              password: config.get('REDIS_PASSWORD'),
+            };
+
+        return {
+          connection,
+          defaultJobOptions: {
+            removeOnComplete: { count: 100 },
+            removeOnFail: { count: 500 },
+          },
+        };
+      },
       inject: [ConfigService],
     }),
     BullModule.registerQueue(
