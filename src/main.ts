@@ -14,8 +14,13 @@ async function bootstrap() {
     }),
   );
 
-  app.setGlobalPrefix('api');
   app.enableCors();
+
+  const serverAdapter = app.get(require('@bull-board/express').ExpressAdapter);
+  serverAdapter.setBasePath('/queues');
+  app.use('/queues', serverAdapter.getRouter());
+
+  app.setGlobalPrefix('api');
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);

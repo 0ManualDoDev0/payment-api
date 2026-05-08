@@ -23,6 +23,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(BullBoardAuthMiddleware)
-      .forRoutes({ path: 'queues*', method: RequestMethod.ALL });
+      .forRoutes({ path: '/queues*', method: RequestMethod.ALL });
   }
 }
