@@ -7,7 +7,7 @@ import { PAYMENT_QUEUE, WEBHOOK_QUEUE } from '../queues/queues.constants';
 @Module({
   imports: [
     BullBoardModule.forRoot({
-      route: '/queues',
+      route: '/admin/queues',
       adapter: ExpressAdapter,
     }),
     BullBoardModule.forFeature({
