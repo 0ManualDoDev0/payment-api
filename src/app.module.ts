@@ -7,6 +7,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 import { BullBoardDashboardModule } from './bull-board/bull-board.module';
 import { BullBoardAuthMiddleware } from './bull-board/bull-board.middleware';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { BullBoardAuthMiddleware } from './bull-board/bull-board.middleware';
     PaymentsModule,
     WebhooksModule,
     BullBoardDashboardModule,
+    HealthModule,
   ],
 })
 export class AppModule implements NestModule {
