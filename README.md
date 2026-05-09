@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis"/>
   <img src="https://img.shields.io/badge/Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white" alt="Railway"/>
   <img src="https://img.shields.io/badge/CI-passing-brightgreen?style=for-the-badge&logo=github-actions&logoColor=white" alt="CI"/>
+  <a href="https://payment-api-production-8dbf.up.railway.app/api/health"><img src="https://img.shields.io/badge/health-ok-brightgreen?style=for-the-badge" alt="Health"/></a>
 </p>
 
 API de pagamentos construída com **NestJS** e integrada ao **Mercado Pago**, com suporte a PIX, cartão de crédito, boleto bancário e assinaturas recorrentes. Utiliza **BullMQ** para processamento assíncrono com retry automático e **Prisma** como ORM sobre PostgreSQL.
