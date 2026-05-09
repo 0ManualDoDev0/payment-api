@@ -54,6 +54,39 @@ API de pagamentos construída com **NestJS** e integrada ao **Mercado Pago**, co
 | `/queues` | Bull Board — monitoramento de filas (Basic Auth) |
 
 ---
+## 🏗️ Arquitetura
+
+```
+┌─────────┐     REST      ┌─────────────┐     enqueue     ┌───────────────┐
+│ Cliente │ ───────────► │  REST API   │ ──────────────► │  BullMQ Queue │
+└─────────┘              │  (NestJS)   │                  │payment-process│
+                         └──────┬──────┘                  └───────┬───────┘
+                                │                                  │
+                                ▼                                  ▼
+                         ┌─────────────┐                  ┌───────────────┐
+                         │  Payments   │                  │   Payment     │
+                         │  Service    │                  │   Processor   │
+                         └─────────────┘                  └───────┬───────┘
+                                                                   │
+                                                                   ▼
+                                                          ┌────────────────┐
+                                                          │  Mercado Pago  │
+                                                          │      API       │
+                                                          └───────┬────────┘
+                                                                  │ webhook
+                                                                  ▼
+                         ┌─────────────┐     enqueue     ┌───────────────┐
+                         │  Database   │ ◄────────────── │   Webhook     │
+                         │ (PostgreSQL)│                  │   Processor   │
+                         └─────────────┘                  └───────┬───────┘
+                                                                   │
+                                                          ┌────────┴────────┐
+                                                          │  BullMQ Queue   │
+                                                          │webhook-processing│
+                                                          └─────────────────┘
+```
+
+---
 
 ## 🏥 Health Check
 
