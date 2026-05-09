@@ -55,6 +55,32 @@ API de pagamentos construída com **NestJS** e integrada ao **Mercado Pago**, co
 
 ---
 
+## 🏥 Health Check
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `GET` | `/api/health` | Retorna status do banco de dados, Redis e filas |
+
+**Produção:** `https://payment-api-production-8dbf.up.railway.app/api/health`
+
+**Exemplo de resposta:**
+
+```json
+{
+  "status": "ok",
+  "database": { "status": "ok" },
+  "redis": { "status": "ok" },
+  "queues": {
+    "payment-processing": { "waiting": 0, "active": 1, "completed": 42, "failed": 0 },
+    "webhook-processing": { "waiting": 0, "active": 0, "completed": 17, "failed": 1 }
+  }
+}
+```
+
+O campo `status` retorna `"error"` se o banco ou o Redis estiverem indisponíveis. As estatísticas de fila são exibidas independentemente.
+
+---
+
 ## Stack
 
 | Camada | Tecnologia |
